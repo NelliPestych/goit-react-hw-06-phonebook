@@ -5,14 +5,11 @@ import actions from "../actions";
 
 const Filter = ({ searchAll, inputChangeContact }) => (
   <div>
-  <input type="text" onChange={e => inputChangeContact(e.target.value)} />
-  <ul>
-    {searchAll.map(({ id, name, number }) => (
-      <li key={id}>
-        <p>{name} {number}</p>
-      </li>
-    ))}
-  </ul>
+    <input
+      type="text"
+      value={searchAll}
+      onChange={(e) => inputChangeContact(e.target.value)}
+    />
   </div>
 );
 
@@ -25,7 +22,7 @@ const mapDispatchToProps = {
 };
 
 Filter.propTypes = {
-  searchAll: PropTypes.array.isRequired,
+  searchAll: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

@@ -1,22 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
+import actions from "../actions";
+import { connect } from "react-redux";
 
-const ContactsItem = ({ id, name, number, onRemoveTask }) => (
-    <li key={id}>
+const ContactsItem = ({ name, number, onRemoveTask }) => (
+    <li>
       <p>
         {name} {number}
       </p>
-      <button type="button" onClick={() => onRemoveTask(id)}>
+      <button type="button" onClick={onRemoveTask}>
         Удалить
       </button>
     </li>
 );
 
 ContactsItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+  // id: PropTypes.string.isRequired,
+  // name: PropTypes.string.isRequired,
+  // number: PropTypes.string.isRequired,
   onRemoveTask: PropTypes.func.isRequired,
 };
 
-export default ContactsItem;
+const mapStateToProps = (state, ownProps) => {
+  const item = state.contacts.items.find(item => item.id === ownProps.id);
+   return {
+     ...item,
+   };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onRemoveTask: () => dispatch(actions.removeContact(ownProps.id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsItem);

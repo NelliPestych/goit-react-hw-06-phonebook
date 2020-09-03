@@ -4,17 +4,14 @@ import "./FadeStyles.css";
 import ContactsItem from "./ContactsItem";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import actions from "../actions";
 
-const Contacts = ({ contactsAll, onRemoveTask }) => (
+const Contacts = ({ contactsAll }) => (
   <TransitionGroup component="ul" className="fade">
-    {contactsAll.map(({ id, name, number }) => (
+    {contactsAll.map(({ id }) => (
       <CSSTransition key={id} timeout={250} classNames="fade">
         <ContactsItem
           id={id}
-          name={name}
-          number={number}
-          onRemoveTask={() => onRemoveTask(id)}
+          key={id}
         />
       </CSSTransition>
     ))}
@@ -23,15 +20,17 @@ const Contacts = ({ contactsAll, onRemoveTask }) => (
 
 Contacts.propTypes = {
   contactsAll: PropTypes.array.isRequired,
-  onRemoveTask: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  contactsAll: state.contacts.contactList,
-});
-
-const mapDispatchToProps = {
-  onRemoveTask: actions.removeContact,
+const mapStateToProps = (state) => {
+  const { items, filter } = state.contacts;
+  const normalizedFilter = filter.toLowerCase();
+const visibleContacts = items.filter(contact =>
+  contact.name.toLowerCase().includes(normalizedFilter),
+  );
+  return {
+    contactsAll: visibleContacts,
+  }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+export default connect(mapStateToProps)(Contacts);
