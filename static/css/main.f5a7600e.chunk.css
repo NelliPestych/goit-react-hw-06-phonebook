@@ -1,0 +1,2 @@
+.fade-enter{transform:translateX(-100%)}.fade-enter-active{transition:transform .25s}.fade-enter-active,.fade-exit{transform:translateX(0)}.fade-exit-active{transition:transform .25s}.fade-exit-active,.my-appear{transform:translateX(-100%)}.my-appear-active{transform:translateX(0);transition:transform .5s}
+/*# sourceMappingURL=main.f5a7600e.chunk.css.map */
